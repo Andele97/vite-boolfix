@@ -1,1 +1,12 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
+@import "node_modules/@fontsource/bebas-neue/index.css";
+@import "node_modules/@fontsource/bebas-neue/400.css";
+
+body {
+  background: linear-gradient(180deg, rgba(6,6,6,1) 0%, rgba(51,51,51,1) 10%);
+  min-height: 100vh;
+}
+
+h2{
+  color: white;
+}

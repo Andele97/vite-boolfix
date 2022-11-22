@@ -15,17 +15,33 @@ export default {
   components: {
     AppHeader,
     AppMain
+  },
+  methods:{
+    getApi(type){
+      axios.get(store.apiUrl + type, {params: store.apiParams})
+      .then(res =>{
+        store[type] = res.data.results;
+      })
+      .catch(err =>{
+
+      })
+    }
+  },
+  mounted(){
+    this.getApi('movie')
+    this.getApi('tv')
   }
 }
 </script>
 
 <template>
-  <AppHeadear />
-  <AppMain />
+  <AppHeader />
+  <AppMain title="Film" type="movie"/>
+  <AppMain title="Serie Tv" type="tv"/>
 </template>
 
 <style lang="scss">
 
- @use './styles/general.scss'
+ @use './styles/general.scss' as *;
 
 </style>
