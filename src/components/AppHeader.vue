@@ -1,79 +1,57 @@
 <script>
+import {store} from '../assets/data/store'
 export default {
-  name: 'AppHeader'
+  name: 'AppHeader',
+  data(){
+    return {
+      store
+    }
+  }
 }
 </script>
 
 <template>
-  <header class="container-fluid d-flex justify-content-between">
+  <header class="d-flex justify-content-between p-3">
+
     <div class="logo">
       <img src="../assets/img/logo.png" alt="">
-      <div class="nav">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Serie TV</a></li>
-          <li><a href="#">Film</a></li>
-        </ul>
-      </div>
     </div>
 
-    <div class="secondary-nav">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <form action="">
-        <input type="text" id="fname" name="fname" value="" placeholder="Titolo, persone, generi">
-      </form>
+    <div class="d-flex">
+      <input
+      @keyup.enter="$emit('search')"
+      v-model.trim="store.apiParams.query"
+      class="form-control"
+     type="text" placeholder="Cerca un film">
+
+     <select
+     v-model="store.type"
+     @change="$emit('search')"
+      class="form-select ms-3" >
+        <option value="">All</option>
+        <option value="movie">Film</option>
+        <option value="tv">Serie Tv</option>
+      </select>
+
     </div>
     
+
   </header>
 </template>
 
+
 <style lang="scss" scoped>
-
-@use '../styles/general.scss' as *;
-
-.active{
-  color: white;
-}
-
-.container-fluid{
-  padding: 20px;
-}
-
-.logo{
-  display: flex;
-  img{
-    width: 100px;
-  }
-  ul{
-    display: flex;
-    list-style: none;
-    a{
-      padding-right: 20px;
-      text-decoration: none;
-      color: lightgray;
-      font-weight: bold;
-      &:hover{
-        color: gray;
-      }
+@use '../assets/style/vars.scss' as *;
+header{
+  height: 70px;
+  background-image: linear-gradient(black, $bg-color);
+  .logo{
+    img{
+      width: 150px;
     }
   }
-}
-
-  .secondary-nav{
-    display: flex;
-    i{
-      color: white;
-      margin-right: 10px;
-    }
-    input{
-      background-color: black;
-      border: 1px solid white;
-      color: white;
-      input::placeholder{
-        color: white;
-        opacity: 1;
-      }
-    }
+  input{
+    min-width: 400px;
   }
-
+}
 </style>

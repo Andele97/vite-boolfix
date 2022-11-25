@@ -1,47 +1,35 @@
 <script>
-
-import { store } from '../data/store'
+import {store} from '../assets/data/store'
 import AppCard from './AppCard.vue'
-
 export default {
   name: 'AppMain',
-  props:{
-    title: String,
-    type: String
-  },
-  components: {
+  components:{
     AppCard
   },
   data(){
     return{
       store
     }
+  },
+  props:{
+    title: String,
+    type: String
   }
 }
 </script>
 
 <template>
-  <div class="container">
-    <h2>{{title}}</h2>
-  </div>
+  <h1 class="container">
+      {{title}}
+    </h1>
 
-  <div class="container d-flex flex-wrap">
-    <div 
-    v-for="card in store[type]" :key="card.id"
-    class="ap-card">
-      dada
+    <div class="container d-flex flex-wrap">
+
+      <AppCard :card="card" v-for="card in store[type]" :key="card.id"/>
+   
     </div>
-  </div>
 </template>
 
-<style lang="scss">
 
-  @use '../styles/general.scss' as *;
-
-  .ap-card{
-    background-color: yellow;
-    width: 300px;
-    height: 300px;
-  }
-
+<style lang="scss" scoped>
 </style>

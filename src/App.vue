@@ -1,10 +1,8 @@
 <script>
-import axios from 'axios';
-import { store } from './data/store';
-
+import {store} from './assets/data/store'
+import axios from 'axios'
 import AppHeader from './components/AppHeader.vue'
 import AppMain from './components/AppMain.vue'
-
 export default {
   name: 'App',
   data(){
@@ -12,36 +10,53 @@ export default {
       store
     }
   },
-  components: {
+  components:{
     AppHeader,
     AppMain
   },
-  methods:{
-    getApi(type){
-      axios.get(store.apiUrl + type, {params: store.apiParams})
-      .then(res =>{
+  methods:{ //https://api.themoviedb.org/3/movie/popular
+    getApi(type, isPopular = false){
+      let apiUrl;
+      if(isPopular) apiUrl = 'https://api.themoviedb.org/3/movie/popular/'
+      else apiUrl = store.apiUrl + type
+      
+      axios.get(apiUrl, { params: store.apiParams })
+      .then(res => {
         store[type] = res.data.results;
+        //console.log(res.data.results);
       })
-      .catch(err =>{
-
+      .catch(err => {
+        console.log(err);
       })
+    },
+    startSearch(){
+      store.movie = [];
+      store.tv = [];
+      if(store.type === ''){
+        this.getApi('movie')
+        this.getApi('tv')
+      }else{
+        this.getApi(store.type)
+      }
+      
     }
   },
   mounted(){
-    this.getApi('movie')
-    this.getApi('tv')
+    this.getApi('movie', true);
   }
 }
 </script>
 
 <template>
-  <AppHeader />
-  <AppMain title="Film" type="movie"/>
-  <AppMain title="Serie Tv" type="tv"/>
+    <div>
+      <AppHeader @search="startSearch" />
+      <AppMain v-if="store.movie.length > 0" title="Film" type="movie" />
+      <AppMain v-if="store.tv.length > 0" title="Serie Tv" type="tv" />
+    </div>
 </template>
 
+
 <style lang="scss">
-
- @use './styles/general.scss' as *;
-
+@use './assets/style/vars' as *;
+@use './assets/style/general';
 </style>
